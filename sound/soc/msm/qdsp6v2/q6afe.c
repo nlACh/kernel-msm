@@ -1015,7 +1015,7 @@ static int afe_get_cal_topology_id(u16 port_id, u32 *topology_id)
 	struct audio_cal_info_afe_top   *afe_top_info = NULL;
 
 	if (this_afe.cal_data[AFE_TOPOLOGY_CAL] == NULL) {
-		pr_err("%s: [AFE_TOPOLOGY_CAL] not initialized\n", __func__);
+		pr_debug("%s: [AFE_TOPOLOGY_CAL] not initialized\n", __func__);
 		return -EINVAL;
 	}
 	if (topology_id == NULL) {
@@ -1028,7 +1028,7 @@ static int afe_get_cal_topology_id(u16 port_id, u32 *topology_id)
 	cal_block = afe_find_cal_topo_id_by_port(
 		this_afe.cal_data[AFE_TOPOLOGY_CAL], port_id);
 	if (cal_block == NULL) {
-		pr_err("%s: [AFE_TOPOLOGY_CAL] not initialized for this port %d\n",
+		pr_debug("%s: [AFE_TOPOLOGY_CAL] not initialized for this port %d\n",
 				__func__, port_id);
 		ret = -EINVAL;
 		goto unlock;
@@ -3527,7 +3527,7 @@ static ssize_t afe_debug_write(struct file *filp,
 
 	lbuf[cnt] = '\0';
 
-	if (!strncmp(lb_str, "afe_loopback", 12)) {
+	if (!strcmp(lb_str, "afe_loopback")) {
 		rc = afe_get_parameters(lbuf, param, 3);
 		if (!rc) {
 			pr_info("%s: %lu %lu %lu\n", lb_str, param[0], param[1],
@@ -3556,7 +3556,7 @@ static ssize_t afe_debug_write(struct file *filp,
 			rc = -EINVAL;
 		}
 
-	} else if (!strncmp(lb_str, "afe_loopback_gain", 17)) {
+	} else if (!strcmp(lb_str, "afe_loopback_gain")) {
 		rc = afe_get_parameters(lbuf, param, 2);
 		if (!rc) {
 			pr_info("%s: %s %lu %lu\n",

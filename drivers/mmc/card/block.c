@@ -698,10 +698,12 @@ static int mmc_blk_ioctl_cmd(struct block_device *bdev,
 		goto cmd_done;
 	}
 
+#ifdef CONFIG_MMC_FFU
 	if (idata->ic.opcode == MMC_FFU_INVOKE_OP) {
 		err = mmc_ffu_invoke(card, idata->buf);
 		goto cmd_done;
 	}
+#endif
 
 	cmd.opcode = idata->ic.opcode;
 	cmd.arg = idata->ic.arg;
@@ -3897,7 +3899,8 @@ static struct mmc_blk_data *mmc_blk_alloc_req(struct mmc_card *card,
 		((unsigned int)size * percentage) / 100;
 
 	if (mmc_host_cmd23(card->host)) {
-		if (mmc_card_mmc(card) ||
+		if ((mmc_card_mmc(card) &&
+		     card->csd.mmca_vsn >= CSD_SPEC_VER_3) ||
 		    (mmc_card_sd(card) &&
 		     card->scr.cmds & SD_SCR_CMD23_SUPPORT))
 			md->flags |= MMC_BLK_CMD23;
