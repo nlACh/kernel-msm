@@ -448,6 +448,7 @@ static int __init hb_init(void)
 	input_set_capability(hb_data.hb_dev, EV_KEY, KEY_HOME);
 	input_set_capability(hb_data.hb_dev, EV_KEY, KEY_POWER);
 	input_set_capability(hb_data.hb_dev, EV_KEY, 580); // APP_SWITCH
+	input_set_capability(hb_data.hb_dev, EV_KEY, 582); // VOICE_ASSIST 
 	input_set_capability(hb_data.hb_dev, EV_KEY, KEY_BACK);
 	input_set_capability(hb_data.hb_dev, EV_KEY, KEY_VOLUMEDOWN);
 	input_set_capability(hb_data.hb_dev, EV_KEY, KEY_VOLUMEUP);
